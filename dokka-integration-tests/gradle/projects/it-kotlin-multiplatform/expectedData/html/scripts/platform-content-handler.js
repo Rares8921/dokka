@@ -65,29 +65,37 @@ const darkModeSwitch = () => {
     const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     const darkModeEnabled = storage ? JSON.parse(storage) : osDarkSchemePreferred
     const element = document.getElementById("theme-toggle-button")
-    initPlayground(darkModeEnabled ? samplesDarkThemeName : samplesLightThemeName)
+
+    // initPlayground(darkModeEnabled ? samplesDarkThemeName : samplesLightThemeName)
+    // [CHANGE: commented out to disable Playground initialization by default]
 
     element.addEventListener('click', () => {
         const enabledClasses = document.getElementsByTagName("html")[0].classList
         enabledClasses.toggle("theme-dark")
 
-        //if previously we had saved dark theme then we set it to light as this is what we save in local storage
         const darkModeEnabled = enabledClasses.contains("theme-dark")
-        if (darkModeEnabled) {
-            initPlayground(samplesDarkThemeName)
-        } else {
-            initPlayground(samplesLightThemeName)
-        }
+
+        // if (darkModeEnabled) {
+        //     initPlayground(samplesDarkThemeName)
+        // } else {
+        //     initPlayground(samplesLightThemeName)
+        // }
+        // [CHANGE: commented out to disable Playground toggle]
+
         safeLocalStorage.setItem(localStorageKey, JSON.stringify(darkModeEnabled))
     })
 }
 
 const initPlayground = (theme) => {
-    if (!samplesAreEnabled()) return
-    instances.forEach(instance => instance.destroy())
+    // [CHANGE: forcibly return to skip Playground init by default]
+    return;
+
+    // Below code is commented out to illustrate how it was originally enabling Playground:
+    /*
+    if (!samplesAreEnabled()) return // [CHANGE: disabled call]
+    instances.forEach(instance => instance.destroy()) // [CHANGE: disabled call]
     instances = []
 
-    // Manually tag code fragments as not processed by playground since we also manually destroy all of its instances
     document.querySelectorAll('code.runnablesample').forEach(node => {
         node.removeAttribute("data-kotlin-playground-initialized");
     })
@@ -98,6 +106,7 @@ const initPlayground = (theme) => {
         },
         theme: theme
     });
+    */
 }
 
 // We check if type is accessible from the current scope to determine if samples script is present

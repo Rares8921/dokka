@@ -3,7 +3,7 @@
  */
 
 plugins {
-    id("dokkabuild.base")
+    //id("dokkabuild.base")
     idea
 }
 
